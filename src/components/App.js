@@ -2,8 +2,10 @@ import React, { Fragment } from 'react';
 import ObjectiveList from './ObjectiveList';
 import MonthSelector from './MonthSelector';
 import ObjectiveAdd from './ObjectiveAdd';
-import base from '../base';
-import { getMonth } from '../helpers';
+import Login from './Login';
+import Logout from './Logout';
+import firebase from '../base';
+import { getMonth, isLoggedIn } from '../helpers';
 
 class App extends React.Component {
   state = {
@@ -15,7 +17,7 @@ class App extends React.Component {
     const { params } = this.props.match;
     let year = params.year || '2018';
     let month = params.month || 'march';
-    this.ref = base.syncState(`${year}/${month}`, {
+    this.ref = firebase.syncState(`${year}/${month}`, {
       context: this,
       state: 'objectives'
     });
@@ -26,15 +28,15 @@ class App extends React.Component {
     const { params } = nextProps.match;
     let year = params.year || '2018';
     let month = params.month || 'march';
-    base.removeBinding(this.ref);
-    this.ref = base.syncState(`${year}/${month}`, {
+    firebase.removeBinding(this.ref);
+    this.ref = firebase.syncState(`${year}/${month}`, {
       context: this,
       state: 'objectives'
     });
   }
 
   componentWillUnmount() {
-    base.removeBinding(this.ref);
+    firebase.removeBinding(this.ref);
   }
 
   addObjective = obj => {
@@ -80,6 +82,9 @@ class App extends React.Component {
   };
 
   render() {
+    if (!isLoggedIn()) {
+      return <Login history={this.props.history} />;
+    }
     return (
       <Fragment>
         <MonthSelector
@@ -93,6 +98,7 @@ class App extends React.Component {
           removeObjective={this.removeObjective}
         />
         <ObjectiveAdd addObjective={this.addObjective} />
+        <Logout history={this.props.history} />
       </Fragment>
     );
   }
