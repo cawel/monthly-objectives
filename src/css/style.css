@@ -1,11 +1,45 @@
 body {
   font-family: 'Comic Sans MS';
+  background-color: #f3f1f5;
 }
+
+#main{
+  background-color: white;
+}
+
 ul {
   padding-left: 0;
 }
 li {
   list-style: none;
+}
+
+header{
+  background-color: #007bff;
+  color: white;
+  width: 100%;
+  border-top: 0.5rem solid;
+  border-color: rgba(0,0,0,.1);
+}
+header h1{
+  display: inline;
+}
+header a{
+  color: #0c58b0;
+  text-decoration: none;
+  font-size: 300%;
+}
+header a:hover{
+  text-decoration: none;
+  color: white;
+}
+
+h2{
+  margin: 20px 0;
+}
+
+.login-field{
+  max-width: 25rem;
 }
 
 .month {
@@ -15,12 +49,18 @@ li {
   padding: 10px;
 }
 
+.objectiveList{
+  margin-top: 3rem;
+}
 .objective .name {
   padding: 10px;
 }
+.listTitle{
+  font-weight: bold;
+}
 
 .objectiveNew {
-  margin-top: 20px;
+  margin-top: 3rem;
 }
 
 .done {
@@ -29,4 +69,16 @@ li {
 
 .monthSelector {
   font-family: Luckiest Guy, Ubuntu, Verdana;
+}
+
+.footer{
+  max-width: 250px;
+  padding-bottom: 20px;
+}
+.footer .separator{
+  margin: 0 1rem;
+}
+
+.fas{
+  padding-right: 1rem;
 }

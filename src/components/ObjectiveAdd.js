@@ -15,16 +15,31 @@ class ObjectiveAdd extends React.Component {
 
   render() {
     return (
-      <form className="objectiveNew" onSubmit={this.createObjective}>
-        <input
-          type="text"
-          name="name"
-          ref={this.nameRef}
-          required
-          placeholder="my objective..."
-        />
-        <button type="submit">Add</button>
-      </form>
+      <div className="row">
+        <div className="col">
+          <form
+            className="objectiveNew form-inline"
+            onSubmit={this.createObjective}
+          >
+            <div className="form-group">
+              <input
+                type="text"
+                name="name"
+                className="form-control"
+                ref={this.nameRef}
+                required
+                size="40"
+                placeholder="my new objective..."
+              />
+            </div>
+            <div className="form-group">
+              <button className="btn btn-primary " type="submit">
+                Add
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     );
   }
 }

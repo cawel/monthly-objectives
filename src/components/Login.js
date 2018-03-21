@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { firebaseApp } from '../base';
 import { getMonth } from '../helpers';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { loginMessage: '' };
+    this.state = { errorMessage: '' };
   }
 
   email = React.createRef();
   password = React.createRef();
 
   loginFailed = () => {
-    this.setState({ loginMessage: 'Error while loggin in' });
+    this.setState({ errorMessage: 'Error while loggin in.' });
   };
 
   login = event => {
@@ -40,23 +40,54 @@ class Login extends React.Component {
       });
   };
 
+  hasErrorMessage = () => this.state.errorMessage !== '';
+
   render() {
     return (
-      <div>
-        <h2>Login</h2>
-        <p>{this.state.loginMessage}</p>
-        <form onSubmit={this.login}>
-          <label>
-            Email:
-            <input type="email" ref={this.email} name="email" />
-          </label>
-          <label>
-            Password:
-            <input type="password" ref={this.password} name="password" />
-          </label>
-          <button type="submit">Log in</button>
-        </form>
-      </div>
+      <Fragment>
+        <div className="row">
+          <div className="col">
+            <h2>
+              <i className="fas fa-sign-in-alt" />Log in
+            </h2>
+          </div>
+        </div>
+        <div className={'row ' + (this.hasErrorMessage() ? '' : 'd-none')}>
+          <div className="col">
+            <div className="alert alert-danger" role="alert">
+              <i className="fas fa-exclamation-circle" />
+              {this.state.errorMessage}
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <form onSubmit={this.login}>
+              <div className="form-group">
+                <label>Email:</label>
+                <input
+                  className="form-control login-field"
+                  type="email"
+                  ref={this.email}
+                  name="email"
+                />
+              </div>
+              <div className="form-group">
+                <label>Password:</label>
+                <input
+                  className="form-control login-field"
+                  type="password"
+                  ref={this.password}
+                  name="password"
+                />
+              </div>
+              <button className="btn btn-primary" type="submit">
+                Log in
+              </button>
+            </form>
+          </div>
+        </div>
+      </Fragment>
     );
   }
 }

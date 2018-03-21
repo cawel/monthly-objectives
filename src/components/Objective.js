@@ -14,7 +14,9 @@ class Objective extends React.Component {
           onChange={this.toggleObjectiveCheck}
           index={this.props.index}
         />
-        <span className={this.props.item.checked ? 'name done' : 'name'}>
+        <span
+          className={this.props.item.checked ? 'name done text-muted' : 'name'}
+        >
           {this.props.item.name}
         </span>
       </span>

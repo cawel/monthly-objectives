@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 import ObjectiveList from './ObjectiveList';
 import MonthSelector from './MonthSelector';
 import ObjectiveAdd from './ObjectiveAdd';
+import Footer from './Footer';
 import Login from './Login';
-import Logout from './Logout';
 import firebase from '../base';
 import { getMonth, isLoggedIn } from '../helpers';
 
@@ -83,8 +83,14 @@ class App extends React.Component {
 
   render() {
     if (!isLoggedIn()) {
-      return <Login history={this.props.history} />;
+      return (
+        <Fragment>
+          <Login history={this.props.history} />
+          <Footer />
+        </Fragment>
+      );
     }
+
     return (
       <Fragment>
         <MonthSelector
@@ -98,7 +104,8 @@ class App extends React.Component {
           removeObjective={this.removeObjective}
         />
         <ObjectiveAdd addObjective={this.addObjective} />
-        <Logout history={this.props.history} />
+
+        <Footer history={this.props.history} />
       </Fragment>
     );
   }

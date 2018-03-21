@@ -6,15 +6,18 @@ class ObjectiveList extends React.Component {
     return (
       Array.isArray(this.props.objectives) &&
       this.props.objectives.map((item, index) => (
-        <li key={index}>
+        <li className="list-group-item" key={index}>
           <Objective
             item={item}
             index={index}
             toggleObjectiveCheck={this.props.toggleObjectiveCheck}
           />
-          <button onClick={this.props.removeObjective.bind(this, index)}>
-            x
-          </button>
+          <a
+            href="#delete"
+            onClick={this.props.removeObjective.bind(this, index)}
+          >
+            <i className="fas fa-trash-alt" />
+          </a>
         </li>
       ))
     );
@@ -23,8 +26,14 @@ class ObjectiveList extends React.Component {
   render() {
     return (
       <Fragment>
-        <ul className="list">{this.listObjectives()}</ul>
-        Nb objectives: {this.props.objectives.length}
+        <div className="row objectiveList">
+          <div className="col ">
+            <h5 className="card-title listTitle">
+              <i className="fas fa-lightbulb" />Objectives
+            </h5>
+            <ul className="list-group">{this.listObjectives()}</ul>
+          </div>
+        </div>
       </Fragment>
     );
   }

@@ -9,15 +9,25 @@ class MonthSelector extends React.Component {
   };
   render() {
     return (
-      <h1 className="monthSelector">
-        <button className="monthArrow" onClick={this.props.prevMonth}>
-          &lt;&lt;
-        </button>
-        <span className="month">{monthAndYearToString(this.props.date)}</span>
-        <button className="monthArrow" onClick={this.props.nextMonth}>
-          &gt;&gt;
-        </button>
-      </h1>
+      <div className="row">
+        <header>
+          <a
+            href="#previous"
+            className="monthArrow"
+            onClick={this.props.prevMonth}
+          >
+            &lt;&lt;
+          </a>
+          <h1 className="monthSelector">
+            <span className="month">
+              {monthAndYearToString(this.props.date)}
+            </span>
+          </h1>
+          <a href="#next" className="monthArrow" onClick={this.props.nextMonth}>
+            &gt;&gt;
+          </a>
+        </header>
+      </div>
     );
   }
 }
