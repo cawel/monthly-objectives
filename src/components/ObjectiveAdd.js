@@ -1,7 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class ObjectiveAdd extends React.Component {
   nameRef = React.createRef();
+
+  static propTypes = {
+    addObjective: PropTypes.func.isRequired
+  };
 
   createObjective = event => {
     event.preventDefault();

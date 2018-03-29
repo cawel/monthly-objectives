@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { firebaseApp } from '../base';
 import { getMonth } from '../helpers';
 
@@ -7,6 +8,10 @@ class Login extends React.Component {
     super(props);
     this.state = { errorMessage: '' };
   }
+
+  static propTypes = {
+    history: PropTypes.object.isRequired
+  };
 
   email = React.createRef();
   password = React.createRef();

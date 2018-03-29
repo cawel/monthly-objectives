@@ -1,6 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Objective extends React.Component {
+  static propTypes = {
+    item: PropTypes.object.isRequired,
+    toggleObjectiveCheck: PropTypes.func.isRequired
+  };
+
   toggleObjectiveCheck = event => {
     this.props.toggleObjectiveCheck(this.props.index);
   };

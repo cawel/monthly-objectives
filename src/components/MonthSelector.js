@@ -4,9 +4,11 @@ import monthAndYearToString from '../helpers';
 
 class MonthSelector extends React.Component {
   static propTypes = {
+    date: PropTypes.object.isRequired,
     prevMonth: PropTypes.func.isRequired,
     nextMonth: PropTypes.func.isRequired
   };
+
   render() {
     return (
       <div className="row">

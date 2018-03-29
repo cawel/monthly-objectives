@@ -46,6 +46,15 @@ class App extends React.Component {
     this.unsyncFirebaseDatabase();
   }
 
+  objectivesList = () => {
+    let list = this.state.objectives;
+    // firebase will return an empty object when no data is found
+    if (!Array.isArray(list)) {
+      list = [];
+    }
+    return list;
+  };
+
   addObjective = obj => {
     let objectives = Object.assign([], this.state.objectives);
     objectives.push(obj);
@@ -105,7 +114,7 @@ class App extends React.Component {
           nextMonth={this.nextMonth}
         />
         <ObjectiveList
-          objectives={this.state.objectives}
+          objectives={this.objectivesList()}
           toggleObjectiveCheck={this.toggleObjectiveCheck}
           removeObjective={this.removeObjective}
         />
