@@ -47,9 +47,7 @@ class Login extends React.Component {
       <Fragment>
         <div className="row">
           <div className="col">
-            <h2>
-              <i className="fas fa-sign-in-alt" />Log in
-            </h2>
+            <h2 className="section-title">Log In</h2>
           </div>
         </div>
         <div className={'row ' + (this.hasErrorMessage() ? '' : 'd-none')}>
@@ -66,7 +64,7 @@ class Login extends React.Component {
               <div className="form-group">
                 <label>Email:</label>
                 <input
-                  className="form-control login-field"
+                  className="form-control login-field user-generated-content"
                   type="email"
                   ref={this.email}
                   name="email"
@@ -75,7 +73,7 @@ class Login extends React.Component {
               <div className="form-group">
                 <label>Password:</label>
                 <input
-                  className="form-control login-field"
+                  className="form-control login-field user-generated-content"
                   type="password"
                   ref={this.password}
                   name="password"

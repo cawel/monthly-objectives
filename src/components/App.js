@@ -24,7 +24,6 @@ class App extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps');
     const { params } = nextProps.match;
     this.syncFirebaseDatabase(params);
   }
@@ -32,19 +31,22 @@ class App extends React.Component {
   syncFirebaseDatabase = params => {
     let year = params.year || getCurrentYear();
     let month = params.month || getCurrentMonth();
-    if (this.ref != undefined) firebase.removeBinding(this.ref);
-    this.ref = firebase.syncState(`${year}/${month}`, {
+    this.unsyncFirebaseDatabase();
+    this.dbRef = firebase.syncState(`${year}/${month}`, {
       context: this,
       state: 'objectives'
     });
   };
 
+  unsyncFirebaseDatabase = () => {
+    if (this.dbRef !== undefined) firebase.removeBinding(this.dbRef);
+  };
+
   componentWillUnmount() {
-    firebase.removeBinding(this.ref);
+    this.unsyncFirebaseDatabase();
   }
 
   addObjective = obj => {
-    console.log('adding an objective');
     let objectives = Object.assign([], this.state.objectives);
     objectives.push(obj);
     this.setState({ objectives });
@@ -63,14 +65,16 @@ class App extends React.Component {
     );
   };
 
-  prevMonth = () => {
+  prevMonth = event => {
+    event.preventDefault();
     let date = new Date(this.state.date);
     let newMonth = date.getMonth() - 1;
     date.setMonth(newMonth);
     this.updateMonth(date);
   };
 
-  nextMonth = () => {
+  nextMonth = event => {
+    event.preventDefault();
     let date = new Date(this.state.date);
     let newMonth = date.getMonth() + 1;
     date.setMonth(newMonth);
@@ -78,7 +82,6 @@ class App extends React.Component {
   };
 
   toggleObjectiveCheck = objectiveIndex => {
-    console.log('check item with index ' + objectiveIndex);
     let objectives = Object.assign([], this.state.objectives);
     objectives[objectiveIndex].checked = !objectives[objectiveIndex].checked;
     this.setState({ objectives });

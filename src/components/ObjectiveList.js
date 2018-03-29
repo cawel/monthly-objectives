@@ -28,10 +28,12 @@ class ObjectiveList extends React.Component {
       <Fragment>
         <div className="row objectiveList">
           <div className="col ">
-            <h5 className="card-title listTitle">
+            <h3 className="card-title">
               <i className="fas fa-star" />Objectives
-            </h5>
-            <ul className="list-group">{this.listObjectives()}</ul>
+            </h3>
+            <ul className="list-group user-generated-content">
+              {this.listObjectives()}
+            </ul>
           </div>
         </div>
       </Fragment>
