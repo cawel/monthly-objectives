@@ -29,7 +29,7 @@ class ObjectiveList extends React.Component {
         <div className="row objectiveList">
           <div className="col ">
             <h5 className="card-title listTitle">
-              <i className="fas fa-lightbulb" />Objectives
+              <i className="fas fa-star" />Objectives
             </h5>
             <ul className="list-group">{this.listObjectives()}</ul>
           </div>

@@ -1,10 +1,13 @@
 body {
   font-family: 'Comic Sans MS';
-  background-color: #f3f1f5;
+  background-image: url('/images/bg.jpg');
 }
 
 #main{
-  background-color: white;
+  background-color: #f8f8f8;
+  -webkit-box-shadow:0px 0px 20px 0px #a7a7a7 ;
+  -moz-box-shadow:0px 0px 20px 0px #a7a7a7 ;
+  box-shadow:0px 0px 10px 0px #7a7a7a ;
 }
 
 ul {
