@@ -8,6 +8,13 @@ export default function monthAndYearToString(date) {
   return `${month} ${date.getFullYear()}`;
 }
 
+export function getCurrentMonth() {
+  return getMonth(new Date());
+}
+export function getCurrentYear() {
+  return new Date().getFullYear();
+}
+
 export function getMonth(date) {
   let month = '';
 

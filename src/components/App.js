@@ -5,7 +5,12 @@ import ObjectiveAdd from './ObjectiveAdd';
 import Footer from './Footer';
 import Login from './Login';
 import firebase from '../base';
-import { getMonth, isLoggedIn } from '../helpers';
+import {
+  getMonth,
+  getCurrentMonth,
+  getCurrentYear,
+  isLoggedIn
+} from '../helpers';
 
 class App extends React.Component {
   state = {
@@ -15,25 +20,24 @@ class App extends React.Component {
 
   componentDidMount() {
     const { params } = this.props.match;
-    let year = params.year || '2018';
-    let month = params.month || 'march';
-    this.ref = firebase.syncState(`${year}/${month}`, {
-      context: this,
-      state: 'objectives'
-    });
+    this.syncFirebaseDatabase(params);
   }
 
   componentWillReceiveProps(nextProps) {
     console.log('componentWillReceiveProps');
     const { params } = nextProps.match;
-    let year = params.year || '2018';
-    let month = params.month || 'march';
-    firebase.removeBinding(this.ref);
+    this.syncFirebaseDatabase(params);
+  }
+
+  syncFirebaseDatabase = params => {
+    let year = params.year || getCurrentYear();
+    let month = params.month || getCurrentMonth();
+    if (this.ref != undefined) firebase.removeBinding(this.ref);
     this.ref = firebase.syncState(`${year}/${month}`, {
       context: this,
       state: 'objectives'
     });
-  }
+  };
 
   componentWillUnmount() {
     firebase.removeBinding(this.ref);
@@ -52,26 +56,25 @@ class App extends React.Component {
     this.setState({ objectives });
   };
 
-  prevMonth = () => {
-    //console.log('prev month');
-    let date = new Date(this.state.date);
-    let newMonth = date.getMonth() - 1;
-    date.setMonth(newMonth);
+  updateMonth = date => {
     this.setState({ date });
     this.props.history.push(
       `/${date.getFullYear()}/${getMonth(date).toLowerCase()}`
     );
   };
 
+  prevMonth = () => {
+    let date = new Date(this.state.date);
+    let newMonth = date.getMonth() - 1;
+    date.setMonth(newMonth);
+    this.updateMonth(date);
+  };
+
   nextMonth = () => {
-    //console.log('next month');
     let date = new Date(this.state.date);
     let newMonth = date.getMonth() + 1;
     date.setMonth(newMonth);
-    this.setState({ date });
-    this.props.history.push(
-      `/${date.getFullYear()}/${getMonth(date).toLowerCase()}`
-    );
+    this.updateMonth(date);
   };
 
   toggleObjectiveCheck = objectiveIndex => {
