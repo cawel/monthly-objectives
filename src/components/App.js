@@ -7,6 +7,7 @@ import Login from './Login';
 import firebase from '../base';
 import {
   getMonth,
+  parseDate,
   getCurrentMonth,
   getCurrentYear,
   isLoggedIn
@@ -16,14 +17,15 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     const { params } = this.props.match;
-    let dateAsInt = Date.parse(
-      `${this.monthFromParams(params)} ${this.yearFromParams(params)}`
-    );
-    this.state.date = new Date(dateAsInt);
+    this.state.year = this.yearFromParams(params);
+    this.state.monthAsString = this.monthFromParams(params);
   }
 
+  defaultMonth = () => getCurrentMonth().toLowerCase();
+
   state = {
-    date: new Date(),
+    year: getCurrentYear(),
+    monthAsString: this.defaultMonth(),
     objectives: []
   };
 
@@ -41,7 +43,7 @@ class App extends React.Component {
     this.syncFirebaseDatabase(params);
   }
 
-  monthFromParams = params => params.month || getCurrentMonth();
+  monthFromParams = params => params.month || this.defaultMonth();
   yearFromParams = params => params.year || getCurrentYear();
 
   syncFirebaseDatabase = params => {
@@ -81,15 +83,15 @@ class App extends React.Component {
   };
 
   updateMonth = date => {
-    this.setState({ date });
-    this.props.history.push(
-      `/${date.getFullYear()}/${getMonth(date).toLowerCase()}`
-    );
+    let monthAsString = getMonth(date).toLowerCase();
+    let year = date.getFullYear();
+    this.setState({ monthAsString, year });
+    this.props.history.push(`/${date.getFullYear()}/${monthAsString}`);
   };
 
   prevMonth = event => {
     event.preventDefault();
-    let date = new Date(this.state.date);
+    let date = parseDate(this.state.monthAsString, this.state.year);
     let newMonth = date.getMonth() - 1;
     date.setMonth(newMonth);
     this.updateMonth(date);
@@ -97,7 +99,7 @@ class App extends React.Component {
 
   nextMonth = event => {
     event.preventDefault();
-    let date = new Date(this.state.date);
+    let date = parseDate(this.state.monthAsString, this.state.year);
     let newMonth = date.getMonth() + 1;
     date.setMonth(newMonth);
     this.updateMonth(date);
@@ -122,7 +124,8 @@ class App extends React.Component {
     return (
       <Fragment>
         <MonthSelector
-          date={this.state.date}
+          month={this.state.monthAsString}
+          year={String(this.state.year)}
           prevMonth={this.prevMonth}
           nextMonth={this.nextMonth}
         />

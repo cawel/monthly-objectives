@@ -3,9 +3,9 @@ import { firebaseApp } from './base';
 const isLoggedIn = () => firebaseApp.auth().currentUser !== null;
 export { isLoggedIn };
 
-export default function monthAndYearToString(date) {
-  let month = getMonth(date);
-  return `${month} ${date.getFullYear()}`;
+export function parseDate(monthAsString, year) {
+  let dateAsInt = Date.parse(`${monthAsString} ${year}`);
+  return new Date(dateAsInt);
 }
 
 export function getCurrentMonth() {

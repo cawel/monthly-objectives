@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import monthAndYearToString from '../helpers';
 
 class MonthSelector extends React.Component {
   static propTypes = {
-    date: PropTypes.object.isRequired,
+    month: PropTypes.string.isRequired,
+    year: PropTypes.string.isRequired,
     prevMonth: PropTypes.func.isRequired,
     nextMonth: PropTypes.func.isRequired
   };
@@ -22,7 +22,7 @@ class MonthSelector extends React.Component {
           </a>
           <h1 className="monthSelector">
             <span className="month">
-              {monthAndYearToString(this.props.date)}
+              {`${this.props.month} ${this.props.year}`}
             </span>
           </h1>
           <a href="#next" className="monthArrow" onClick={this.props.nextMonth}>
