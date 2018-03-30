@@ -13,6 +13,15 @@ import {
 } from '../helpers';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    const { params } = this.props.match;
+    let dateAsInt = Date.parse(
+      `${this.monthFromParams(params)} ${this.yearFromParams(params)}`
+    );
+    this.state.date = new Date(dateAsInt);
+  }
+
   state = {
     date: new Date(),
     objectives: []
@@ -23,28 +32,32 @@ class App extends React.Component {
     this.syncFirebaseDatabase(params);
   }
 
+  componentWillUnmount() {
+    this.unsyncFirebaseDatabase();
+  }
+
   componentWillReceiveProps(nextProps) {
     const { params } = nextProps.match;
     this.syncFirebaseDatabase(params);
   }
 
+  monthFromParams = params => params.month || getCurrentMonth();
+  yearFromParams = params => params.year || getCurrentYear();
+
   syncFirebaseDatabase = params => {
-    let year = params.year || getCurrentYear();
-    let month = params.month || getCurrentMonth();
     this.unsyncFirebaseDatabase();
-    this.dbRef = firebase.syncState(`${year}/${month}`, {
-      context: this,
-      state: 'objectives'
-    });
+    this.dbRef = firebase.syncState(
+      `${this.yearFromParams(params)}/${this.monthFromParams(params)}`,
+      {
+        context: this,
+        state: 'objectives'
+      }
+    );
   };
 
   unsyncFirebaseDatabase = () => {
     if (this.dbRef !== undefined) firebase.removeBinding(this.dbRef);
   };
-
-  componentWillUnmount() {
-    this.unsyncFirebaseDatabase();
-  }
 
   objectivesList = () => {
     let list = this.state.objectives;
