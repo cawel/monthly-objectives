@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 class ObjectiveAdd extends React.Component {
   nameRef = React.createRef();
 
   static propTypes = {
-    addObjective: PropTypes.func.isRequired
+    addObjective: PropTypes.func.isRequired,
   };
 
-  createObjective = event => {
+  createObjective = (event) => {
     event.preventDefault();
     const objective = {
-      name: this.nameRef.value.value,
-      checked: false
+      name: this.nameRef.current.value,
+      checked: false,
     };
     this.props.addObjective(objective);
     event.currentTarget.reset();
@@ -39,7 +39,8 @@ class ObjectiveAdd extends React.Component {
             </div>
             <div className="form-group">
               <button className="btn btn-primary " type="submit">
-                <i className="fas fa-plus" />Add
+                <i className="fas fa-plus" />
+                Add
               </button>
             </div>
           </form>
