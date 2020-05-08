@@ -64,51 +64,51 @@ class App extends React.Component {
   };
 
   objectivesList = () => {
-    let list = this.state.objectives;
+    const list = this.state.objectives;
     // firebase will return an empty object when no data is found
     if (!Array.isArray(list)) {
-      list = [];
+      return [];
     }
     return list;
   };
 
   addObjective = (obj) => {
-    let objectives = Object.assign([], this.state.objectives);
+    const objectives = Object.assign([], this.state.objectives);
     objectives.push(obj);
     this.setState({ objectives });
   };
 
   removeObjective = (index) => {
-    let objectives = Object.assign([], this.state.objectives);
+    const objectives = Object.assign([], this.state.objectives);
     objectives.splice(index, 1);
     this.setState({ objectives });
   };
 
   updateMonth = (date) => {
-    let monthAsString = getMonth(date).toLowerCase();
-    let year = date.getFullYear();
+    const monthAsString = getMonth(date).toLowerCase();
+    const year = date.getFullYear();
     this.setState({ monthAsString, year });
     this.props.history.push(`/${date.getFullYear()}/${monthAsString}`);
   };
 
   prevMonth = (event) => {
     event.preventDefault();
-    let date = parseDate(this.state.monthAsString, this.state.year);
-    let newMonth = date.getMonth() - 1;
+    const date = parseDate(this.state.monthAsString, this.state.year);
+    const newMonth = date.getMonth() - 1;
     date.setMonth(newMonth);
     this.updateMonth(date);
   };
 
   nextMonth = (event) => {
     event.preventDefault();
-    let date = parseDate(this.state.monthAsString, this.state.year);
-    let newMonth = date.getMonth() + 1;
+    const date = parseDate(this.state.monthAsString, this.state.year);
+    const newMonth = date.getMonth() + 1;
     date.setMonth(newMonth);
     this.updateMonth(date);
   };
 
   toggleObjectiveCheck = (objectiveIndex) => {
-    let objectives = Object.assign([], this.state.objectives);
+    const objectives = Object.assign([], this.state.objectives);
     objectives[objectiveIndex].checked = !objectives[objectiveIndex].checked;
     this.setState({ objectives });
   };
