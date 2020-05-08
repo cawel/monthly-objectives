@@ -1,7 +1,7 @@
 import Rebase from "re-base";
 import firebase from "firebase";
 
-let prodConfig = {
+const prodConfig = {
   apiKey: "AIzaSyDPwuBzfWxIxpi9TQn9ZnxzBtYy0YIYbUE",
   authDomain: "monthly-objectives.firebaseapp.com",
   databaseURL: "https://monthly-objectives.firebaseio.com",
@@ -10,7 +10,7 @@ let prodConfig = {
   messagingSenderId: "795804563760",
 };
 
-let devConfig = {
+const devConfig = {
   apiKey: "AIzaSyA5TfI07yh31aNpKoX9BdZ2k4UUz7NQMTo",
   authDomain: "monthly-objectives-dev.firebaseapp.com",
   databaseURL: "https://monthly-objectives-dev.firebaseio.com",
@@ -19,7 +19,7 @@ let devConfig = {
   messagingSenderId: "149177821597",
 };
 
-let config = /herokuapp/.test(window.location.href) ? prodConfig : devConfig;
+const config = /herokuapp/.test(window.location.href) ? prodConfig : devConfig;
 
 export const firebaseApp = firebase.initializeApp(config);
 

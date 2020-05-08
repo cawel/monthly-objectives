@@ -4,7 +4,7 @@ const isLoggedIn = () => firebaseApp.auth().currentUser !== null;
 export { isLoggedIn };
 
 export function parseDate(monthAsString, year) {
-  let dateAsInt = Date.parse(`${monthAsString} ${year}`);
+  const dateAsInt = Date.parse(`${monthAsString} ${year}`);
   return new Date(dateAsInt);
 }
 
