@@ -1,4 +1,4 @@
-import { firebaseApp } from './base';
+import { firebaseApp } from "./base";
 
 const isLoggedIn = () => firebaseApp.auth().currentUser !== null;
 export { isLoggedIn };
@@ -16,47 +16,47 @@ export function getCurrentYear() {
 }
 
 export function getMonth(date) {
-  let month = '';
+  let month = "";
 
   switch (date.getMonth()) {
     case 0:
-      month = 'January';
+      month = "January";
       break;
     case 1:
-      month = 'February';
+      month = "February";
       break;
     case 2:
-      month = 'March';
+      month = "March";
       break;
     case 3:
-      month = 'April';
+      month = "April";
       break;
     case 4:
-      month = 'May';
+      month = "May";
       break;
     case 5:
-      month = 'June';
+      month = "June";
       break;
     case 6:
-      month = 'July';
+      month = "July";
       break;
     case 7:
-      month = 'August';
+      month = "August";
       break;
     case 8:
-      month = 'September';
+      month = "September";
       break;
     case 9:
-      month = 'October';
+      month = "October";
       break;
     case 10:
-      month = 'November';
+      month = "November";
       break;
     case 11:
-      month = 'December';
+      month = "December";
       break;
     default:
-      month = 'January';
+      month = "January";
   }
   return month;
 }

@@ -1,11 +1,13 @@
-import React, { Fragment } from 'react';
-import Logout from './Logout';
-import { isLoggedIn } from '../helpers';
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
+
+import Logout from "./Logout";
+import { isLoggedIn } from "../helpers";
 
 class Footer extends React.Component {
   logoutStr = () => {
     if (!isLoggedIn()) {
-      return '';
+      return "";
     } else {
       return (
         <Fragment>
@@ -30,5 +32,9 @@ class Footer extends React.Component {
     );
   }
 }
+
+Footer.propTypes = {
+  history: PropTypes.object,
+};
 
 export default Footer;

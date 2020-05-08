@@ -1,16 +1,18 @@
-import React from 'react';
-import { firebaseApp } from '../base';
+import React from "react";
+import PropTypes from "prop-types";
+
+import { firebaseApp } from "../base";
 
 class Logout extends React.Component {
-  logout = event => {
+  logout = (event) => {
     event.preventDefault();
     firebaseApp
       .auth()
       .signOut()
       .then(() => {
-        this.props.history.push('/');
+        this.props.history.push("/");
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.log(err);
       });
   };
@@ -23,4 +25,9 @@ class Logout extends React.Component {
     );
   }
 }
+
+Logout.propTypes = {
+  history: PropTypes.object,
+};
+
 export default Logout;

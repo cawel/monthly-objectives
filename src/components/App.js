@@ -1,17 +1,19 @@
-import React, { Fragment } from 'react';
-import ObjectiveList from './ObjectiveList';
-import MonthSelector from './MonthSelector';
-import ObjectiveAdd from './ObjectiveAdd';
-import Footer from './Footer';
-import Login from './Login';
-import firebase from '../base';
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
+
+import ObjectiveList from "./ObjectiveList";
+import MonthSelector from "./MonthSelector";
+import ObjectiveAdd from "./ObjectiveAdd";
+import Footer from "./Footer";
+import Login from "./Login";
+import firebase from "../base";
 import {
   getMonth,
   parseDate,
   getCurrentMonth,
   getCurrentYear,
-  isLoggedIn
-} from '../helpers';
+  isLoggedIn,
+} from "../helpers";
 
 class App extends React.Component {
   constructor(props) {
@@ -26,7 +28,7 @@ class App extends React.Component {
   state = {
     year: getCurrentYear(),
     monthAsString: this.defaultMonth(),
-    objectives: []
+    objectives: [],
   };
 
   componentDidMount() {
@@ -38,21 +40,21 @@ class App extends React.Component {
     this.unsyncFirebaseDatabase();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { params } = nextProps.match;
     this.syncFirebaseDatabase(params);
   }
 
-  monthFromParams = params => params.month || this.defaultMonth();
-  yearFromParams = params => params.year || getCurrentYear();
+  monthFromParams = (params) => params.month || this.defaultMonth();
+  yearFromParams = (params) => params.year || getCurrentYear();
 
-  syncFirebaseDatabase = params => {
+  syncFirebaseDatabase = (params) => {
     this.unsyncFirebaseDatabase();
     this.dbRef = firebase.syncState(
       `${this.yearFromParams(params)}/${this.monthFromParams(params)}`,
       {
         context: this,
-        state: 'objectives'
+        state: "objectives",
       }
     );
   };
@@ -70,26 +72,26 @@ class App extends React.Component {
     return list;
   };
 
-  addObjective = obj => {
+  addObjective = (obj) => {
     let objectives = Object.assign([], this.state.objectives);
     objectives.push(obj);
     this.setState({ objectives });
   };
 
-  removeObjective = (index, event) => {
+  removeObjective = (index) => {
     let objectives = Object.assign([], this.state.objectives);
     objectives.splice(index, 1);
     this.setState({ objectives });
   };
 
-  updateMonth = date => {
+  updateMonth = (date) => {
     let monthAsString = getMonth(date).toLowerCase();
     let year = date.getFullYear();
     this.setState({ monthAsString, year });
     this.props.history.push(`/${date.getFullYear()}/${monthAsString}`);
   };
 
-  prevMonth = event => {
+  prevMonth = (event) => {
     event.preventDefault();
     let date = parseDate(this.state.monthAsString, this.state.year);
     let newMonth = date.getMonth() - 1;
@@ -97,7 +99,7 @@ class App extends React.Component {
     this.updateMonth(date);
   };
 
-  nextMonth = event => {
+  nextMonth = (event) => {
     event.preventDefault();
     let date = parseDate(this.state.monthAsString, this.state.year);
     let newMonth = date.getMonth() + 1;
@@ -105,7 +107,7 @@ class App extends React.Component {
     this.updateMonth(date);
   };
 
-  toggleObjectiveCheck = objectiveIndex => {
+  toggleObjectiveCheck = (objectiveIndex) => {
     let objectives = Object.assign([], this.state.objectives);
     objectives[objectiveIndex].checked = !objectives[objectiveIndex].checked;
     this.setState({ objectives });
@@ -141,5 +143,10 @@ class App extends React.Component {
     );
   }
 }
+
+App.propTypes = {
+  match: PropTypes.object,
+  history: PropTypes.object,
+};
 
 export default App;
