@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import App from "./App";
+import { App } from "./App";
 import NotFound from "./NotFound";
 
-const Router = () => {
+export const Router = () => {
   return (
     <BrowserRouter>
       <Switch>
@@ -14,5 +14,3 @@ const Router = () => {
     </BrowserRouter>
   );
 };
-
-export default Router;

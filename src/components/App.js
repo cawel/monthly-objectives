@@ -2,7 +2,7 @@ import React, { Fragment, useState } from "react";
 import { useListVals } from "react-firebase-hooks/database";
 import PropTypes from "prop-types";
 
-import ObjectiveList from "./ObjectiveList";
+import { ObjectiveList } from "./ObjectiveList";
 import MonthSelector from "./MonthSelector";
 import ObjectiveAdd from "./ObjectiveAdd";
 import Footer from "./Footer";
@@ -31,7 +31,7 @@ const documentRef = (params) => {
 };
 
 // Component
-const App = (props) => {
+export const App = (props) => {
   const [year, setYear] = useState(getCurrentYear());
   const [monthAsString, setMonthAsString] = useState(defaultMonth());
   const { params } = props.match;
@@ -102,9 +102,15 @@ const App = (props) => {
         prevMonth={prevMonth}
         nextMonth={nextMonth}
       />
+
       {DEBUG_MODE && <span>{JSON.stringify(objectives, null, 2)}</span>}
       {error && <strong>Error: {error}</strong>}
-      {loading && <span>Loading...</span>}
+      {loading && (
+        <span>
+          <i className="fas fa-spinner" />
+          Loading...
+        </span>
+      )}
 
       <ObjectiveList
         objectives={objectives}
@@ -121,5 +127,3 @@ App.propTypes = {
   match: PropTypes.object,
   history: PropTypes.object,
 };
-
-export default App;

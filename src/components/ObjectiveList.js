@@ -10,7 +10,7 @@ const filterInputData = (objectives) => {
   return objectives;
 };
 
-const ObjectiveList = (props) => {
+export const ObjectiveList = (props) => {
   const listObjectives = () => {
     const objectives = filterInputData(props.objectives);
     return objectives.map((item, index) => (
@@ -44,5 +44,3 @@ ObjectiveList.propTypes = {
   toggleObjectiveCheck: PropTypes.func.isRequired,
   removeObjective: PropTypes.func.isRequired,
 };
-
-export default ObjectiveList;
