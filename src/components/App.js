@@ -1,4 +1,5 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
+import { useListVals } from "react-firebase-hooks/database";
 import PropTypes from "prop-types";
 
 import ObjectiveList from "./ObjectiveList";
@@ -6,7 +7,7 @@ import MonthSelector from "./MonthSelector";
 import ObjectiveAdd from "./ObjectiveAdd";
 import Footer from "./Footer";
 import Login from "./Login";
-import firebase from "../base";
+import { firebaseApp } from "../base";
 import {
   getMonth,
   parseDate,
@@ -15,134 +16,114 @@ import {
   isLoggedIn,
 } from "../helpers";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    const { params } = this.props.match;
-    this.state.year = this.yearFromParams(params);
-    this.state.monthAsString = this.monthFromParams(params);
+const DEBUG_MODE = false;
+
+const yearFromParams = (params) => params.year || getCurrentYear();
+
+const monthFromParams = (params) => params.month || defaultMonth();
+
+const defaultMonth = () => getCurrentMonth().toLowerCase();
+
+const objectivesList = (objectives) => {
+  // firebase will return `undefined` when no data is found
+  if (!Array.isArray(objectives)) {
+    return [];
   }
+  return objectives;
+};
 
-  defaultMonth = () => getCurrentMonth().toLowerCase();
+const documentRef = (params) => {
+  return firebaseApp
+    .database()
+    .ref(`${yearFromParams(params)}/${monthFromParams(params)}`);
+};
 
-  state = {
-    year: getCurrentYear(),
-    monthAsString: this.defaultMonth(),
-    objectives: [],
+// Component
+const App = (props) => {
+  const [year, setYear] = useState(getCurrentYear());
+  const [monthAsString, setMonthAsString] = useState(defaultMonth());
+  const { params } = props.match;
+
+  const [objectives, loading, error] = useListVals(
+    firebaseApp
+      .database()
+      .ref(`${yearFromParams(params)}/${monthFromParams(params)}`)
+  );
+
+  const addObjective = (obj) => {
+    const oldObjectives = Object.assign([], objectives);
+    oldObjectives.push(obj);
+    documentRef(params).set(oldObjectives);
   };
 
-  componentDidMount() {
-    const { params } = this.props.match;
-    this.syncFirebaseDatabase(params);
-  }
-
-  componentWillUnmount() {
-    this.unsyncFirebaseDatabase();
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { params } = nextProps.match;
-    this.syncFirebaseDatabase(params);
-  }
-
-  monthFromParams = (params) => params.month || this.defaultMonth();
-  yearFromParams = (params) => params.year || getCurrentYear();
-
-  syncFirebaseDatabase = (params) => {
-    this.unsyncFirebaseDatabase();
-    this.dbRef = firebase.syncState(
-      `${this.yearFromParams(params)}/${this.monthFromParams(params)}`,
-      {
-        context: this,
-        state: "objectives",
-      }
-    );
+  const removeObjective = (index) => {
+    const oldObjectives = Object.assign([], objectives);
+    oldObjectives.splice(index, 1);
+    documentRef(params).set(oldObjectives);
   };
 
-  unsyncFirebaseDatabase = () => {
-    if (this.dbRef !== undefined) firebase.removeBinding(this.dbRef);
-  };
-
-  objectivesList = () => {
-    const list = this.state.objectives;
-    // firebase will return an empty object when no data is found
-    if (!Array.isArray(list)) {
-      return [];
-    }
-    return list;
-  };
-
-  addObjective = (obj) => {
-    const objectives = Object.assign([], this.state.objectives);
-    objectives.push(obj);
-    this.setState({ objectives });
-  };
-
-  removeObjective = (index) => {
-    const objectives = Object.assign([], this.state.objectives);
-    objectives.splice(index, 1);
-    this.setState({ objectives });
-  };
-
-  updateMonth = (date) => {
+  const updateMonth = (date) => {
     const monthAsString = getMonth(date).toLowerCase();
     const year = date.getFullYear();
-    this.setState({ monthAsString, year });
-    this.props.history.push(`/${date.getFullYear()}/${monthAsString}`);
+    setMonthAsString(monthAsString);
+    setYear(year);
+    props.history.push(`/${date.getFullYear()}/${monthAsString}`);
   };
 
-  prevMonth = (event) => {
+  const prevMonth = (event) => {
     event.preventDefault();
-    const date = parseDate(this.state.monthAsString, this.state.year);
+    const date = parseDate(monthAsString, year);
     const newMonth = date.getMonth() - 1;
     date.setMonth(newMonth);
-    this.updateMonth(date);
+    updateMonth(date);
   };
 
-  nextMonth = (event) => {
+  const nextMonth = (event) => {
     event.preventDefault();
-    const date = parseDate(this.state.monthAsString, this.state.year);
+    const date = parseDate(monthAsString, year);
     const newMonth = date.getMonth() + 1;
     date.setMonth(newMonth);
-    this.updateMonth(date);
+    updateMonth(date);
   };
 
-  toggleObjectiveCheck = (objectiveIndex) => {
-    const objectives = Object.assign([], this.state.objectives);
-    objectives[objectiveIndex].checked = !objectives[objectiveIndex].checked;
-    this.setState({ objectives });
+  const toggleObjectiveCheck = (objectiveIndex) => {
+    const oldObjectives = Object.assign([], objectives);
+    oldObjectives[objectiveIndex].checked = !oldObjectives[objectiveIndex]
+      .checked;
+    documentRef(params).set(oldObjectives);
   };
 
-  render() {
-    if (!isLoggedIn()) {
-      return (
-        <Fragment>
-          <Login history={this.props.history} />
-          <Footer />
-        </Fragment>
-      );
-    }
-
+  if (!isLoggedIn()) {
     return (
       <Fragment>
-        <MonthSelector
-          month={this.state.monthAsString}
-          year={String(this.state.year)}
-          prevMonth={this.prevMonth}
-          nextMonth={this.nextMonth}
-        />
-        <ObjectiveList
-          objectives={this.objectivesList()}
-          toggleObjectiveCheck={this.toggleObjectiveCheck}
-          removeObjective={this.removeObjective}
-        />
-        <ObjectiveAdd addObjective={this.addObjective} />
-
-        <Footer history={this.props.history} />
+        <Login history={props.history} />
+        <Footer />
       </Fragment>
     );
   }
-}
+
+  return (
+    <Fragment>
+      <MonthSelector
+        month={monthAsString}
+        year={String(year)}
+        prevMonth={prevMonth}
+        nextMonth={nextMonth}
+      />
+      {error && <strong>Error: {error}</strong>}
+      {loading && <span>Loading...</span>}
+      {DEBUG_MODE && <span>{JSON.stringify(objectives, null, 2)}</span>}
+
+      <ObjectiveList
+        objectives={objectivesList(objectives)}
+        toggleObjectiveCheck={toggleObjectiveCheck}
+        removeObjective={removeObjective}
+      />
+      <ObjectiveAdd addObjective={addObjective} />
+      <Footer history={props.history} />
+    </Fragment>
+  );
+};
 
 App.propTypes = {
   match: PropTypes.object,

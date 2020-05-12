@@ -1,4 +1,3 @@
-import Rebase from "re-base";
 import firebase from "firebase";
 
 const prodConfig = {
@@ -22,5 +21,3 @@ const devConfig = {
 const config = /herokuapp/.test(window.location.href) ? prodConfig : devConfig;
 
 export const firebaseApp = firebase.initializeApp(config);
-
-export default Rebase.createClass(firebaseApp.database());

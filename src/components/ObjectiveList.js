@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import Objective from './Objective';
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
+import Objective from "./Objective";
 
 class ObjectiveList extends React.Component {
   static propTypes = {
     objectives: PropTypes.array.isRequired,
     toggleObjectiveCheck: PropTypes.func.isRequired,
-    removeObjective: PropTypes.func.isRequired
+    removeObjective: PropTypes.func.isRequired,
   };
 
   listObjectives() {
@@ -33,7 +33,8 @@ class ObjectiveList extends React.Component {
         <div className="row objectiveList">
           <div className="col ">
             <h3 className="card-title">
-              <i className="fas fa-star" />Objectives
+              <i className="fas fa-star" />
+              Objectives
             </h3>
             <ul className="list-group user-generated-content">
               {this.listObjectives()}
