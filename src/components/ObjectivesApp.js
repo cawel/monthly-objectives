@@ -7,7 +7,7 @@ import { ObjectiveAdd } from "./objectives/ObjectiveAdd";
 import MonthSelector from "./MonthSelector";
 import Footer from "./Footer";
 import Login from "./Login";
-import { firebaseApp } from "../base";
+import { db } from "../base";
 import {
   getMonth,
   parseDate,
@@ -24,11 +24,8 @@ const monthFromParams = (params) => params.month || defaultMonth();
 
 const defaultMonth = () => getCurrentMonth().toLowerCase();
 
-const documentRef = (params) => {
-  return firebaseApp
-    .database()
-    .ref(`${yearFromParams(params)}/${monthFromParams(params)}`);
-};
+const documentKey = (params) =>
+  `${yearFromParams(params)}/${monthFromParams(params)}`;
 
 // Component
 export const ObjectivesApp = (props) => {
@@ -36,22 +33,18 @@ export const ObjectivesApp = (props) => {
   const [monthAsString, setMonthAsString] = useState(defaultMonth());
   const { params } = props.match;
 
-  const [objectives, loading, error] = useListVals(
-    firebaseApp
-      .database()
-      .ref(`${yearFromParams(params)}/${monthFromParams(params)}`)
-  );
+  const [objectives, loading, error] = useListVals(db(documentKey(params)));
 
   const addObjective = (obj) => {
     const oldObjectives = Object.assign([], objectives);
     oldObjectives.push(obj);
-    documentRef(params).set(oldObjectives);
+    db(documentKey(params)).set(oldObjectives);
   };
 
   const removeObjective = (index) => {
     const oldObjectives = Object.assign([], objectives);
     oldObjectives.splice(index, 1);
-    documentRef(params).set(oldObjectives);
+    db(documentKey(params)).set(oldObjectives);
   };
 
   const updateMonth = (date) => {
@@ -82,7 +75,7 @@ export const ObjectivesApp = (props) => {
     const oldObjectives = Object.assign([], objectives);
     oldObjectives[objectiveIndex].checked = !oldObjectives[objectiveIndex]
       .checked;
-    documentRef(params).set(oldObjectives);
+    db(params).set(oldObjectives);
   };
 
   if (!isLoggedIn()) {

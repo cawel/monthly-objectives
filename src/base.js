@@ -21,3 +21,5 @@ const devConfig = {
 const config = /herokuapp/.test(window.location.href) ? prodConfig : devConfig;
 
 export const firebaseApp = firebase.initializeApp(config);
+
+export const db = (documentKey) => firebaseApp.database().ref(documentKey);
