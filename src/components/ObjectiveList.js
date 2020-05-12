@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import Objective from "./Objective";
 
@@ -10,43 +10,34 @@ const filterInputData = (objectives) => {
   return objectives;
 };
 
-class ObjectiveList extends React.Component {
-  listObjectives() {
-    return filterInputData(this.props.objectives).map((item, index) => (
-      <li className="list-group-item" key={index}>
-        <Objective
-          item={item}
-          index={index}
-          toggleObjectiveCheck={this.props.toggleObjectiveCheck}
-        />
-        <a
-          href="#delete"
-          onClick={this.props.removeObjective.bind(this, index)}
-        >
-          <i className="fas fa-trash-alt" />
-        </a>
-      </li>
+const ObjectiveList = (props) => {
+  const listObjectives = () => {
+    const objectives = filterInputData(props.objectives);
+    return objectives.map((item, index) => (
+      <Objective
+        key={index}
+        item={item}
+        index={index}
+        toggleObjectiveCheck={props.toggleObjectiveCheck}
+        removeObjective={props.removeObjective}
+      />
     ));
-  }
+  };
 
-  render() {
-    return (
-      <Fragment>
-        <div className="row objectiveList">
-          <div className="col ">
-            <h3 className="card-title">
-              <i className="fas fa-star" />
-              Objectives
-            </h3>
-            <ul className="list-group user-generated-content">
-              {this.listObjectives()}
-            </ul>
-          </div>
-        </div>
-      </Fragment>
-    );
-  }
-}
+  return (
+    <div className="row objectiveList">
+      <div className="col">
+        <h3 className="card-title">
+          <i className="fas fa-star" />
+          Objectives
+        </h3>
+        <ul className="list-group user-generated-content">
+          {listObjectives()}
+        </ul>
+      </div>
+    </div>
+  );
+};
 
 ObjectiveList.propTypes = {
   objectives: PropTypes.array.isRequired,
