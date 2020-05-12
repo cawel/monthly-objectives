@@ -3,8 +3,8 @@ import { useListVals } from "react-firebase-hooks/database";
 import PropTypes from "prop-types";
 
 import { ObjectiveList } from "./objectives/ObjectiveList";
+import { ObjectiveAdd } from "./objectives/ObjectiveAdd";
 import MonthSelector from "./MonthSelector";
-import ObjectiveAdd from "./objectives/ObjectiveAdd";
 import Footer from "./Footer";
 import Login from "./Login";
 import { firebaseApp } from "../base";

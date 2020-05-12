@@ -1,53 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-class ObjectiveAdd extends React.Component {
-  nameRef = React.createRef();
+export const ObjectiveAdd = (props) => {
+  const [objectiveName, setObjectiveName] = useState("");
+  const onObjectiveNameChange = (event) => setObjectiveName(event.target.value);
 
-  static propTypes = {
-    addObjective: PropTypes.func.isRequired,
-  };
+  const createObjective = (event) => {
+    if (!objectiveName) return;
 
-  createObjective = (event) => {
     event.preventDefault();
     const objective = {
-      name: this.nameRef.current.value,
+      name: objectiveName,
       checked: false,
     };
-    this.props.addObjective(objective);
-    event.currentTarget.reset();
+    props.addObjective(objective);
+    onObjectiveNameChange({ target: { value: "" } });
   };
 
-  render() {
-    return (
-      <div className="row">
-        <div className="col">
-          <form
-            className="objective-new form-inline"
-            onSubmit={this.createObjective}
-          >
-            <div className="form-group">
-              <input
-                type="text"
-                name="name"
-                className="form-control user-generated-content"
-                ref={this.nameRef}
-                required
-                size="40"
-                placeholder="my new objective..."
-              />
-            </div>
-            <div className="form-group">
-              <button className="btn btn-primary " type="submit">
-                <i className="fas fa-plus" />
-                Add
-              </button>
-            </div>
-          </form>
-        </div>
+  return (
+    <div className="row">
+      <div className="col">
+        <form className="objective-new form-inline" onSubmit={createObjective}>
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control user-generated-content"
+              required
+              value={objectiveName}
+              onChange={onObjectiveNameChange}
+              size="40"
+              placeholder="my new objective..."
+            />
+          </div>
+          <div className="form-group">
+            <button className="btn btn-primary " type="submit">
+              <i className="fas fa-plus" />
+              Add
+            </button>
+          </div>
+        </form>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-export default ObjectiveAdd;
+ObjectiveAdd.propTypes = {
+  addObjective: PropTypes.func.isRequired,
+};
