@@ -2,15 +2,17 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import Objective from "./Objective";
 
-class ObjectiveList extends React.Component {
-  static propTypes = {
-    objectives: PropTypes.array.isRequired,
-    toggleObjectiveCheck: PropTypes.func.isRequired,
-    removeObjective: PropTypes.func.isRequired,
-  };
+const filterInputData = (objectives) => {
+  // firebase will return `undefined` when no data is found
+  if (!Array.isArray(objectives)) {
+    return [];
+  }
+  return objectives;
+};
 
+class ObjectiveList extends React.Component {
   listObjectives() {
-    return this.props.objectives.map((item, index) => (
+    return filterInputData(this.props.objectives).map((item, index) => (
       <li className="list-group-item" key={index}>
         <Objective
           item={item}
@@ -45,5 +47,11 @@ class ObjectiveList extends React.Component {
     );
   }
 }
+
+ObjectiveList.propTypes = {
+  objectives: PropTypes.array.isRequired,
+  toggleObjectiveCheck: PropTypes.func.isRequired,
+  removeObjective: PropTypes.func.isRequired,
+};
 
 export default ObjectiveList;

@@ -24,14 +24,6 @@ const monthFromParams = (params) => params.month || defaultMonth();
 
 const defaultMonth = () => getCurrentMonth().toLowerCase();
 
-const objectivesList = (objectives) => {
-  // firebase will return `undefined` when no data is found
-  if (!Array.isArray(objectives)) {
-    return [];
-  }
-  return objectives;
-};
-
 const documentRef = (params) => {
   return firebaseApp
     .database()
@@ -110,12 +102,12 @@ const App = (props) => {
         prevMonth={prevMonth}
         nextMonth={nextMonth}
       />
+      {DEBUG_MODE && <span>{JSON.stringify(objectives, null, 2)}</span>}
       {error && <strong>Error: {error}</strong>}
       {loading && <span>Loading...</span>}
-      {DEBUG_MODE && <span>{JSON.stringify(objectives, null, 2)}</span>}
 
       <ObjectiveList
-        objectives={objectivesList(objectives)}
+        objectives={objectives}
         toggleObjectiveCheck={toggleObjectiveCheck}
         removeObjective={removeObjective}
       />
