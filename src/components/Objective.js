@@ -1,18 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { ObjectiveTrash } from "./ObjectiveTrash";
 
-const ObjectiveTrash = (props) => (
-  <a href="#delete" onClick={props.removeObjective.bind(this, props.index)}>
-    <i className="fas fa-trash-alt" />
-  </a>
-);
-
-ObjectiveTrash.propTypes = {
-  index: PropTypes.number.isRequired,
-  removeObjective: PropTypes.func.isRequired,
-};
-
-class Objective extends React.Component {
+export class Objective extends React.Component {
   toggleObjectiveCheck = () => {
     this.props.toggleObjectiveCheck(this.props.index);
   };
@@ -50,5 +40,3 @@ Objective.propTypes = {
   toggleObjectiveCheck: PropTypes.func.isRequired,
   removeObjective: PropTypes.func.isRequired,
 };
-
-export default Objective;

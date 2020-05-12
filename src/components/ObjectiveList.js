@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Objective from "./Objective";
+import { Objective } from "./Objective";
 
 const filterInputData = (objectives) => {
   // firebase will return `undefined` when no data is found
