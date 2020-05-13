@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { ObjectiveList } from "./objectives/ObjectiveList";
 import { ObjectiveAdd } from "./objectives/ObjectiveAdd";
 import MonthSelector from "./MonthSelector";
-import Footer from "./Footer";
+import { Footer } from "./Footer";
 import Login from "./Login";
 import { db } from "../base";
 import {
