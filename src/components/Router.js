@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { ObjectivesApp } from "./ObjectivesApp";
-import NotFound from "./NotFound";
+import { NotFound } from "./NotFound";
 
 export const Router = () => {
   return (
