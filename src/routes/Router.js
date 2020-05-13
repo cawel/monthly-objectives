@@ -1,9 +1,10 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { ObjectivesApp } from "./ObjectivesApp";
+
 import { PrivateRoute } from "./PrivateRoute";
-import { Login } from "./Login";
-import { NotFound } from "./NotFound";
+import { ObjectivesApp } from "../components/ObjectivesApp";
+import { Login } from "../components/Login";
+import { NotFound } from "../components/NotFound";
 
 export const Router = () => {
   return (

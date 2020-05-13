@@ -1,13 +1,13 @@
 body {
-  font-family: 'Comic Sans MS';
-  background-image: url('/images/bg.jpg');
+  font-family: "Comic Sans MS";
+  background-image: url("/images/bg.jpg");
 }
 
-#main{
+#main {
   background-color: #f3f3f3;
-  -webkit-box-shadow:0px 0px 20px 0px #a7a7a7 ;
-  -moz-box-shadow:0px 0px 20px 0px #a7a7a7 ;
-  box-shadow:0px 0px 10px 0px #7a7a7a ;
+  -webkit-box-shadow: 0px 0px 20px 0px #a7a7a7;
+  -moz-box-shadow: 0px 0px 20px 0px #a7a7a7;
+  box-shadow: 0px 0px 10px 0px #7a7a7a;
 }
 
 ul {
@@ -17,32 +17,32 @@ li {
   list-style: none;
 }
 
-header{
+header {
   background-color: #007bff;
   color: white;
   width: 100%;
   border-top: 0.5rem solid;
-  border-color: rgba(0,0,0,.1);
+  border-color: rgba(0, 0, 0, 0.1);
 }
-header h1{
+header h1 {
   display: inline;
   font-size: 3.2rem;
 }
-header a{
+header a {
   color: #0c58b0;
   text-decoration: none;
   font-size: 300%;
 }
-header a:hover{
+header a:hover {
   text-decoration: none;
   color: white;
 }
 
-.section-title{
+.section-title {
   margin: 30px 0;
 }
 
-.login-field{
+.login-field {
   max-width: 25rem;
 }
 
@@ -53,12 +53,12 @@ header a:hover{
   padding: 10px;
 }
 
-.user-generated-content{
+.user-generated-content {
   font-family: Oregano, Ubuntu, Verdana;
   font-size: 130%;
 }
 
-.objectiveList{
+.objectiveList {
   margin-top: 3rem;
 }
 .objective .name {
@@ -68,11 +68,12 @@ header a:hover{
 .objective-new {
   margin-top: 3rem;
 }
-.objective-new input[type=text]{
+.objective-new input[type="text"] {
   margin-right: 0.5rem;
 }
 
-.objective input[type=checkbox], .objective .name{
+.objective input[type="checkbox"],
+.objective .name {
   margin-right: 0.5rem;
 }
 
@@ -84,14 +85,14 @@ header a:hover{
   font-family: Luckiest Guy, Ubuntu, Verdana;
 }
 
-.footer{
+.footer {
   max-width: 250px;
   padding-bottom: 20px;
 }
-.footer .separator{
+.footer .separator {
   margin: 0 1rem;
 }
 
-.fas{
+.fas {
   padding-right: 0.5rem;
 }
