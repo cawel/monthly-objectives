@@ -12,7 +12,7 @@ import {
   parseDate,
   getCurrentMonth,
   getCurrentYear,
-} from "../helpers";
+} from "../dateHelper";
 
 const DEBUG_MODE = false;
 

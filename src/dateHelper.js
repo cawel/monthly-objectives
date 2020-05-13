@@ -1,7 +1,3 @@
-import { firebaseApp } from "./base";
-
-export const isLoggedIn = () => firebaseApp.auth().currentUser !== null;
-
 export function parseDate(monthAsString, year) {
   const dateAsInt = Date.parse(`${monthAsString} ${year}`);
   return new Date(dateAsInt);

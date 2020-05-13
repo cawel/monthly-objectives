@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 
 import { firebaseApp } from "../base";
-import { getMonth } from "../helpers";
+import { getMonth } from "../dateHelper";
 import { Footer } from "../components/Footer";
 
 export class Login extends React.Component {
