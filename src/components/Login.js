@@ -2,16 +2,13 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { firebaseApp } from "../base";
 import { getMonth } from "../helpers";
+import { Footer } from "./Footer";
 
-class Login extends React.Component {
+export class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = { errorMessage: "" };
   }
-
-  static propTypes = {
-    history: PropTypes.object.isRequired,
-  };
 
   email = React.createRef();
   password = React.createRef();
@@ -31,16 +28,17 @@ class Login extends React.Component {
       )
       .then(() => {
         console.log("Login successful !");
-        let date = new Date();
-        this.props.history.push(
-          `/${date.getFullYear()}/${getMonth(date).toLowerCase()}`
-        );
+        const date = new Date();
+        const defaultUrl = `/${date.getFullYear()}/${getMonth(
+          date
+        ).toLowerCase()}`;
+        const { from } = this.props.location.state;
+        const destination = from ?? defaultUrl;
+        this.props.history.push(destination);
       })
       .catch((error) => {
-        var errorCode = error.code;
-
-        var errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        const { code, message } = error;
+        console.log(code, message);
         this.loginFailed();
       });
   };
@@ -90,9 +88,13 @@ class Login extends React.Component {
             </form>
           </div>
         </div>
+        <Footer />
       </Fragment>
     );
   }
 }
 
-export default Login;
+Login.propTypes = {
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object,
+};

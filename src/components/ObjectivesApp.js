@@ -6,14 +6,12 @@ import { ObjectiveList } from "./objectives/ObjectiveList";
 import { ObjectiveAdd } from "./objectives/ObjectiveAdd";
 import MonthSelector from "./MonthSelector";
 import { Footer } from "./Footer";
-import Login from "./Login";
 import { db } from "../base";
 import {
   getMonth,
   parseDate,
   getCurrentMonth,
   getCurrentYear,
-  isLoggedIn,
 } from "../helpers";
 
 const DEBUG_MODE = false;
@@ -78,16 +76,8 @@ export const ObjectivesApp = (props) => {
     db(params).set(oldObjectives);
   };
 
+  // firebase returns `undefined` when no data is found
   const showError = () => error && objectives === undefined;
-
-  if (!isLoggedIn()) {
-    return (
-      <Fragment>
-        <Login history={props.history} />
-        <Footer />
-      </Fragment>
-    );
-  }
 
   return (
     <Fragment>
