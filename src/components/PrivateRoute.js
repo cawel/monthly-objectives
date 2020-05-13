@@ -24,5 +24,9 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
 
 PrivateRoute.propTypes = {
   component: PropTypes.func.isRequired,
-  location: PropTypes.string,
+  location: PropTypes.shape({
+    search: PropTypes.string,
+    pathname: PropTypes.string,
+    hash: PropTypes.string,
+  }),
 };
