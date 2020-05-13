@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import { firebaseApp } from "../base";
 import { getMonth } from "../helpers";
-import { Footer } from "./Footer";
+import { Footer } from "../components/Footer";
 
 export class Login extends React.Component {
   constructor(props) {

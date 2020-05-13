@@ -2,10 +2,10 @@ import React, { Fragment, useState } from "react";
 import { useListVals } from "react-firebase-hooks/database";
 import PropTypes from "prop-types";
 
-import { ObjectiveList } from "./objectives/ObjectiveList";
-import { ObjectiveAdd } from "./objectives/ObjectiveAdd";
-import MonthSelector from "./MonthSelector";
-import { Footer } from "./Footer";
+import { ObjectiveList } from "../components/objectives/ObjectiveList";
+import { ObjectiveAdd } from "../components/objectives/ObjectiveAdd";
+import MonthSelector from "../components/MonthSelector";
+import { Footer } from "../components/Footer";
 import { db } from "../base";
 import {
   getMonth,
