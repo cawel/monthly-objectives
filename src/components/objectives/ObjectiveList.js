@@ -2,18 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Objective } from "./Objective";
 
-const filterInputData = (objectives) => {
-  // firebase will return `undefined` when no data is found
-  if (!Array.isArray(objectives)) {
-    return [];
-  }
-  return objectives;
-};
-
 export const ObjectiveList = (props) => {
-  const listObjectives = () => {
-    const objectives = filterInputData(props.objectives);
-    return objectives.map((item, index) => (
+  const listObjectives = () =>
+    props.objectives.map((item, index) => (
       <Objective
         key={index}
         item={item}
@@ -22,7 +13,6 @@ export const ObjectiveList = (props) => {
         removeObjective={props.removeObjective}
       />
     ));
-  };
 
   return (
     <div className="row objectiveList">

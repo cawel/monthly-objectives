@@ -78,6 +78,8 @@ export const ObjectivesApp = (props) => {
     db(params).set(oldObjectives);
   };
 
+  const showError = () => error && objectives === undefined;
+
   if (!isLoggedIn()) {
     return (
       <Fragment>
@@ -96,8 +98,8 @@ export const ObjectivesApp = (props) => {
         nextMonth={nextMonth}
       />
 
-      {DEBUG_MODE && <span>{JSON.stringify(objectives, null, 2)}</span>}
-      {error && <strong>Error: {error}</strong>}
+      {DEBUG_MODE && <div>Data: {JSON.stringify(objectives, null, 2)}</div>}
+      {showError() && <div>Error: {JSON.stringify(error, null, 2)}</div>}
       {loading && (
         <span>
           <i className="fas fa-spinner" />
@@ -106,7 +108,8 @@ export const ObjectivesApp = (props) => {
       )}
 
       <ObjectiveList
-        objectives={objectives}
+        // firebase returns `undefined` when no data is found
+        objectives={objectives ?? []}
         toggleObjectiveCheck={toggleObjectiveCheck}
         removeObjective={removeObjective}
       />
