@@ -1,99 +1,86 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 
 import { firebaseApp } from "../base";
 import { getMonth } from "../dateHelper";
 import { Footer } from "../components/Footer";
 
-export class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { errorMessage: "" };
-  }
+export const Login = (props) => {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  email = React.createRef();
-  password = React.createRef();
-
-  loginFailed = () => {
-    this.setState({ errorMessage: "Error while loggin in." });
-  };
-
-  login = (event) => {
+  const login = (event) => {
     event.preventDefault();
-
     firebaseApp
       .auth()
-      .signInWithEmailAndPassword(
-        this.email.current.value,
-        this.password.current.value
-      )
+      .signInWithEmailAndPassword(email, password)
       .then(() => {
         console.log("Login successful !");
         const date = new Date();
         const defaultUrl = `/${date.getFullYear()}/${getMonth(
           date
         ).toLowerCase()}`;
-        const { from } = this.props.location.state;
+        const from =
+          props.location && props.location.state && props.location.state.from;
         const destination = from ?? defaultUrl;
-        this.props.history.push(destination);
+        props.history.push(destination);
       })
       .catch((error) => {
+        setErrorMessage("Error while loggin in.");
         const { code, message } = error;
         console.log(code, message);
-        this.loginFailed();
       });
   };
 
-  hasErrorMessage = () => this.state.errorMessage !== "";
-
-  render() {
-    return (
-      <Fragment>
-        <div className="row">
-          <div className="col">
-            <h2 className="section-title">Log In</h2>
+  return (
+    <Fragment>
+      <div className="row">
+        <div className="col">
+          <h2 className="section-title">Log In</h2>
+        </div>
+      </div>
+      <div className={"row " + (errorMessage ? "" : "d-none")}>
+        <div className="col">
+          <div className="alert alert-danger" role="alert">
+            <i className="fas fa-exclamation-circle" />
+            {errorMessage}
           </div>
         </div>
-        <div className={"row " + (this.hasErrorMessage() ? "" : "d-none")}>
-          <div className="col">
-            <div className="alert alert-danger" role="alert">
-              <i className="fas fa-exclamation-circle" />
-              {this.state.errorMessage}
+      </div>
+      <div className="row">
+        <div className="col">
+          <form onSubmit={login}>
+            <div className="form-group">
+              <label>Email:</label>
+              <input
+                className="form-control login-field user-generated-content"
+                type="email"
+                value={email}
+                required
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
-          </div>
+            <div className="form-group">
+              <label>Password:</label>
+              <input
+                className="form-control login-field user-generated-content"
+                type="password"
+                value={password}
+                required
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <button className="btn btn-primary" type="submit">
+              Log in
+            </button>
+          </form>
         </div>
-        <div className="row">
-          <div className="col">
-            <form onSubmit={this.login}>
-              <div className="form-group">
-                <label>Email:</label>
-                <input
-                  className="form-control login-field user-generated-content"
-                  type="email"
-                  ref={this.email}
-                  name="email"
-                />
-              </div>
-              <div className="form-group">
-                <label>Password:</label>
-                <input
-                  className="form-control login-field user-generated-content"
-                  type="password"
-                  ref={this.password}
-                  name="password"
-                />
-              </div>
-              <button className="btn btn-primary" type="submit">
-                Log in
-              </button>
-            </form>
-          </div>
-        </div>
-        <Footer />
-      </Fragment>
-    );
-  }
-}
+      </div>
+      <Footer />
+    </Fragment>
+  );
+};
 
 Login.propTypes = {
   history: PropTypes.object.isRequired,
