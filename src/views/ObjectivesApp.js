@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import { ObjectiveList } from "../components/objectives/ObjectiveList";
 import { ObjectiveAdd } from "../components/objectives/ObjectiveAdd";
-import MonthSelector from "../components/MonthSelector";
+import { MonthSelector } from "../components/MonthSelector";
 import { Footer } from "../components/Footer";
 import { db } from "../base";
 import {
