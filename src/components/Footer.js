@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 
-import Logout from "./Logout";
+import { Logout } from "./Logout";
 import { isLoggedIn } from "../loginHelper";
 
 export const Footer = (props) => {
