@@ -1,6 +1,6 @@
 body {
   font-family: "Comic Sans MS";
-  background-image: url("/images/bg.jpg");
+  background-image: url("images/bg.jpg");
 }
 
 #main {
