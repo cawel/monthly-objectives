@@ -6,9 +6,6 @@
     "node": "12.15.0"
   },
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
     "express": "^4.17.1",
     "firebase": "^7.14.3",
     "react": "^16.13.1",
@@ -39,6 +36,9 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.8",
+    "@testing-library/react": "^11.2.2",
+    "@testing-library/user-event": "^12.6.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.8.0",
     "husky": "^4.2.5",
